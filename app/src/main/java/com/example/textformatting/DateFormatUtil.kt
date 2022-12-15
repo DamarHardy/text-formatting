@@ -3,6 +3,8 @@ package com.example.textformatting
 import android.content.Context
 import android.text.format.DateFormat
 import android.util.Log
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DateFormatUtil {
     /**
@@ -19,11 +21,31 @@ class DateFormatUtil {
      *
      * getLongDateFormat() return DateFormat with LONG format
      * example January 12, 1952
+     *
+     * parse() method will throw ParseException if the String is Unparseable
+     * to get current Format pattern we can cast DateFormat to SimpleDateFormat and use toPattern()
      */
     fun parse(context : Context) {
-        val dateString = "June 12th, 2022"
-        val dateObj = DateFormat.getDateFormat(context).parse(dateString)
-        Log.d("DateObje", dateObj.toString())
+        val dateString = "12/15/2022"
+        DateFormat.getDateFormat(context).apply {
+            println((this as SimpleDateFormat).toPattern())
+            println("DateFormat parse : ${parse(dateString)}")
+        }
+
+        DateFormat.getMediumDateFormat(context).apply {
+            println((this as SimpleDateFormat).toPattern())
+            println("DateFormatMedium parse : ${parse("Dec 15, 2022")}")
+        }
+
+        DateFormat.getLongDateFormat(context).apply {
+            println((this as SimpleDateFormat).toPattern())
+            println("DateFormatLong parse : ${parse("December 15, 2022")}")
+        }
+
+    }
+
+    private fun println(string: String){
+        Log.d("DateObj", string)
     }
 
 }
